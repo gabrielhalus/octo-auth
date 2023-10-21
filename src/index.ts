@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import * as dotenv from "dotenv";
 import initializeDatabase from "./database/database";
+import userRouter from "./routes/user";
 
 dotenv.config({ path: ".env.local" });
 
@@ -12,6 +13,8 @@ async function startServer() {
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  app.use("/api", userRouter);
 
   try {
     const { error, status } = await initializeDatabase();
