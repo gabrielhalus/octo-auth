@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import * as dotenv from "dotenv";
 import initializeDatabase from "./database/database";
 import userRouter from "./routes/user";
+import authenticationRouter from "./routes/authentication";
 
 dotenv.config({ path: ".env.local" });
 
@@ -14,6 +15,7 @@ async function startServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  app.use("/api", authenticationRouter);
   app.use("/api", userRouter);
 
   try {

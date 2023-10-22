@@ -18,11 +18,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     const { name, email, password } = req.body;
 
     // Create a new user document
-    const newUser = new User({
-      name,
-      email,
-      password,
-    });
+    const newUser = new User({ name, email, password });
 
     // Save the new user to the database
     const savedUser = await newUser.save();
