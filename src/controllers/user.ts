@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/user";
+import { isValidPassword } from "../utils";
 
 /**
  * Create a new user.
@@ -16,6 +17,12 @@ import User from "../models/user";
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      // Missing fields, send a bad request (400) response
+      res.status(400).json({ error: "Missing fields" });
+      return;
+    }
 
     // Create a new user document
     const newUser = new User({ name, email, password });
@@ -84,7 +91,6 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
     res.status(200).json(users);
   } catch (error) {
     // Handle and send an error (500) response to the client
-    console.error((error as Error).message);
     res.status(500).json({ error: "Internal server error" });
   }
 }

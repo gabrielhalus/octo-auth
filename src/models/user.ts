@@ -1,6 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { capitalize, isValidEmail } from "../utils";
+import { capitalize, isValidEmail, isValidPassword } from "../utils";
 
 export interface IUser extends Document {
   name: string;
@@ -28,6 +28,12 @@ const UserSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
+      validate: {
+        validator: (v: string) => {
+          return isValidPassword(v);
+        },
+        message: "Invalid passord format",
+      },
     },
   },
   { timestamps: true }
